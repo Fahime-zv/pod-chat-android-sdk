@@ -9,7 +9,7 @@ import com.fanap.podchat.chat.contact.result_model.ContactSyncedResult;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
 import com.fanap.podchat.chat.thread.public_thread.ResultIsNameAvailable;
 import com.fanap.podchat.chat.thread.public_thread.ResultJoinPublicThread;
-import com.fanap.podchat.chat.user.profile.ResultUpdateProfile;
+import com.fanap.podchat.chat.user.profile.UpdateProfileResponse;
 import com.fanap.podchat.chat.user.user_roles.model.ResultCurrentUserRoles;
 import com.fanap.podchat.mainmodel.ResultDeleteMessage;
 import com.fanap.podchat.model.ChatResponse;
@@ -21,10 +21,10 @@ import com.fanap.podchat.model.OutPutThread;
 import com.fanap.podchat.model.OutputSignalMessage;
 import com.fanap.podchat.model.ResultAddContact;
 import com.fanap.podchat.model.ResultAddParticipant;
-import com.fanap.podchat.model.ResultBlock;
-import com.fanap.podchat.model.ResultBlockList;
+import com.fanap.podchat.model.BlockUnblockUserResponse;
+import com.fanap.podchat.model.GetBlockedUserListResponse;
 import com.fanap.podchat.model.ResultClearHistory;
-import com.fanap.podchat.model.ResultContact;
+import com.fanap.podchat.model.GetContactsResponse;
 import com.fanap.podchat.model.ResultFile;
 import com.fanap.podchat.model.ResultHistory;
 import com.fanap.podchat.model.ResultImageFile;
@@ -44,7 +44,7 @@ import com.fanap.podchat.model.ResultStaticMapImage;
 import com.fanap.podchat.model.ResultThread;
 import com.fanap.podchat.model.ResultThreads;
 import com.fanap.podchat.model.ResultUpdateContact;
-import com.fanap.podchat.model.ResultUserInfo;
+import com.fanap.podchat.model.GetUserInfoResponse;
 
 public interface ChatListener {
 
@@ -53,7 +53,7 @@ public interface ChatListener {
 
     }
 
-    default void onGetContacts(String content, ChatResponse<ResultContact> response) {
+    default void onGetContacts(String content, ChatResponse<GetContactsResponse> response) {
     }
 
     default void onGetHistory(String content, ChatResponse<ResultHistory> history) {
@@ -67,11 +67,11 @@ public interface ChatListener {
 
     }
 
-    default void onBlock(String content, ChatResponse<ResultBlock> response) {
+    default void onBlock(String content, ChatResponse<BlockUnblockUserResponse> response) {
 
     }
 
-    default void onUnBlock(String content, ChatResponse<ResultBlock> response) {
+    default void onUnBlock(String content, ChatResponse<BlockUnblockUserResponse> response) {
 
     }
 
@@ -95,7 +95,7 @@ public interface ChatListener {
 
     }
 
-    default void onUserInfo(String content, ChatResponse<ResultUserInfo> response) {
+    default void onUserInfo(String content, ChatResponse<GetUserInfoResponse> response) {
 
     }
 
@@ -163,7 +163,7 @@ public interface ChatListener {
 
     }
 
-    default void onSearchContact(String content, ChatResponse<ResultContact> response) {
+    default void onSearchContact(String content, ChatResponse<GetContactsResponse> response) {
 
     }
 
@@ -190,7 +190,7 @@ public interface ChatListener {
 
     }
 
-    default void onGetBlockList(String content, ChatResponse<ResultBlockList> response) {
+    default void onGetBlockList(String content, ChatResponse<GetBlockedUserListResponse> response) {
     }
 
     default void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> response) {
@@ -263,7 +263,7 @@ public interface ChatListener {
 
     default void onContactsLastSeenUpdated(ChatResponse<ResultNotSeenDuration> response){}
 
-    default void onChatProfileUpdated(ChatResponse<ResultUpdateProfile> response){}
+    default void onChatProfileUpdated(ChatResponse<UpdateProfileResponse> response){}
 
     default void onUniqueNameIsAvailable(ChatResponse<ResultIsNameAvailable> response){}
 
