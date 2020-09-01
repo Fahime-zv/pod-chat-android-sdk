@@ -210,19 +210,19 @@ public class ChatActivity extends AppCompatActivity
      * Main Server Setting:
      */
 
-    private static String name = BaseApplication.getInstance().getString(R.string.main_server_name);
-    private static String socketAddress = BaseApplication.getInstance().getString(R.string.socketAddress);
-    private static String platformHost = BaseApplication.getInstance().getString(R.string.platformHost);
-    private static String fileServer = BaseApplication.getInstance().getString(R.string.fileServer);
+//    private static String name = BaseApplication.getInstance().getString(R.string.main_server_name);
+//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.socketAddress);
+//    private static String platformHost = BaseApplication.getInstance().getString(R.string.platformHost);
+//    private static String fileServer = BaseApplication.getInstance().getString(R.string.fileServer);
 
     /**
      * Sandbox setting:
      */
 
-//    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
-//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
-//    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
-//    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
+    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
+    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
+    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
+    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
 
 
     //sand box / group
@@ -233,8 +233,10 @@ public class ChatActivity extends AppCompatActivity
 
 //    main server / p2p
 
-    public static int TEST_THREAD_ID = 8182;
-    private static final String TEST_THREAD_HASH = "7691JPIS2VG4XM";
+  //  public static int TEST_THREAD_ID = 8915;
+    public static int TEST_THREAD_ID = 8919;
+    private static final String TEST_THREAD_HASH = "9JKSQQUYFMC8P9";
+  //  private static final String TEST_THREAD_HASH = "LYP3CMIQPZNOPX";
 
     // main server / group
 
@@ -276,7 +278,6 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
 
-
         faker = new Faker();
 
         //        Generator.generateFakeContact(5,getApplicationContext());
@@ -293,7 +294,7 @@ public class ChatActivity extends AppCompatActivity
             return true;
         });
 
-        imageMap.setOnClickListener(v->downloadWithGlide());
+        imageMap.setOnClickListener(v -> downloadWithGlide());
 
         textViewState = findViewById(R.id.textViewStateChat);
         TextView textViewToken = findViewById(R.id.textViewUserId);
@@ -388,7 +389,7 @@ public class ChatActivity extends AppCompatActivity
             Log.d("CHAT_ACTIVITY", "Thread Id: " + threadId);
             Log.d("CHAT_ACTIVITY", "Message Id: " + messageId);
 
-            if(Util.isNotNullOrEmpty(threadId))
+            if (Util.isNotNullOrEmpty(threadId))
                 presenter.deliverNotification(threadId);
 
         }
@@ -538,17 +539,15 @@ public class ChatActivity extends AppCompatActivity
         PodNotificationManager.showNotification(data2, this);
 
 
-
-
-        String d =  "{messageId=488779, messageType=1, MessageSenderName=پوریا, text=3, senderImage=http://sandbox.pod.ir:8080/nzh/image/?imageId=62606&width=1272&height=1272&hashCode=16bf4878c16-0.7172112194509095, threadId=12269, isGroup=false}";
+        String d = "{messageId=488779, messageType=1, MessageSenderName=پوریا, text=3, senderImage=http://sandbox.pod.ir:8080/nzh/image/?imageId=62606&width=1272&height=1272&hashCode=16bf4878c16-0.7172112194509095, threadId=12269, isGroup=false}";
 
         Map<String, String> data = new HashMap<>();
 
-        data.put("threadName", "گروه کاری "+notificationThreadId);
-        data.put("MessageSenderName", "رضا احمدی"+notificationThreadId%2);
+        data.put("threadName", "گروه کاری " + notificationThreadId);
+        data.put("MessageSenderName", "رضا احمدی" + notificationThreadId % 2);
         data.put("text", "سلام چه خبر؟ " + notificationMessageId);
         data.put("isGroup", "true");
-        data.put("MessageSenderUserName", "a.ahmadi" + notificationThreadId%2);
+        data.put("MessageSenderUserName", "a.ahmadi" + notificationThreadId % 2);
         data.put("messageId", String.valueOf(++notificationMessageId));
         data.put("threadId", String.valueOf(++notificationThreadId));
         data.put("messageType", "1");
@@ -896,7 +895,6 @@ public class ChatActivity extends AppCompatActivity
     }
 
 
-
     private void downloadWithGlide() {
 
         try {
@@ -1079,9 +1077,6 @@ public class ChatActivity extends AppCompatActivity
 
 
     }
-
-
-
 
 
     private void getUserRoles() {
@@ -1681,7 +1676,7 @@ public class ChatActivity extends AppCompatActivity
                         startBot();
                         break;
                     }
-                     case 22: {
+                    case 22: {
                         stopBot();
                         break;
                     }
@@ -1693,7 +1688,6 @@ public class ChatActivity extends AppCompatActivity
             }
         });
     }
-
 
 
     private void stopBot() {
@@ -1723,7 +1717,7 @@ public class ChatActivity extends AppCompatActivity
         commands.add("/command1");
         commands.add("/command2");
 
-        DefineBotCommandRequest request = new DefineBotCommandRequest.Builder("TEST2BOT",commands)
+        DefineBotCommandRequest request = new DefineBotCommandRequest.Builder("TEST2BOT", commands)
                 .build();
 
         presenter.defineBotCommand(request);
@@ -2124,7 +2118,7 @@ public class ChatActivity extends AppCompatActivity
                         .build();
 
 //                presenter.addContact(request);
-                presenter.addContact("تست", "تست زاده", "", "", "user-15860676455262");
+                presenter.addContact("farhad", "kheirkhah", "09157770684", "", "");
 
 
                 break;
@@ -2290,7 +2284,7 @@ public class ChatActivity extends AppCompatActivity
     }
 
 
-    public static final String THREAD_UNIQUE_NAME = "unique_name_4_1584016531111";
+    public static final String THREAD_UNIQUE_NAME = "unique_name_44_1584016531111";
 //    public static final String THREAD_UNIQUE_NAME = "unique_name_4_" + new Date().getTime();
 
     private void joinPublicThread() {
@@ -2829,7 +2823,6 @@ public class ChatActivity extends AppCompatActivity
         presenter.onResume();
 
 
-
     }
 
     @Override
@@ -2995,7 +2988,7 @@ public class ChatActivity extends AppCompatActivity
     @Override
     public void onGetUnreadsMessagesCount(ChatResponse<ResultUnreadMessagesCount> response) {
 
-        showToast("There is " + response.getResult().getUnreadsCount() + " Unread message. Cache: "+response.isCache() );
+        showToast("There is " + response.getResult().getUnreadsCount() + " Unread message. Cache: " + response.isCache());
     }
 
     @Override
