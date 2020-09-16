@@ -81,6 +81,8 @@ public class ChatMessageType {
             Constants.DEFINE_BOT_COMMAND,
             Constants.START_BOT,
             Constants.STOP_BOT,
+            Constants.Bot_COMMANDS,
+            Constants.Thread_ALL_BOTS,
             Constants.REGISTER_FCM_APP,
             Constants.REGISTER_FCM_USER_DEVICE,
             Constants.UPDATE_FCM_APP_USERS_DEVICE,
@@ -158,6 +160,8 @@ public class ChatMessageType {
         int DEFINE_BOT_COMMAND = 63;
         int START_BOT = 64;
         int STOP_BOT = 65;
+        int Bot_COMMANDS = 68;
+        int Thread_ALL_BOTS = 69;
 
         int LAST_MESSAGE_DELETED = 66;
         int LAST_MESSAGE_EDITED = 67;
@@ -170,7 +174,6 @@ public class ChatMessageType {
         int CONTACT_SYNCED = 90;
 
         int ERROR = 999;
-
 
     }
 

@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult;
 import com.fanap.podchat.chat.contact.result_model.ContactSyncedResult;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
@@ -894,6 +896,30 @@ public class ChatListenerManager {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
                 listener.onBotStopped(response);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+
+
+    }
+
+    public void callOnBotCommands(ChatResponse<GetBotCommandsResult> response) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onBotCommands(response);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+
+
+    }
+
+    public void callOnThreadAllBots(ChatResponse<ThreadAllBotsResult> response) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onThreadBotList(response);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }

@@ -2,11 +2,16 @@ package com.fanap.podchat.chat.bot;
 
 import com.fanap.podchat.chat.App;
 import com.fanap.podchat.chat.CoreConfig;
+import com.fanap.podchat.chat.bot.model.BotVo;
 import com.fanap.podchat.chat.bot.request_model.CreateBotRequest;
 import com.fanap.podchat.chat.bot.request_model.DefineBotCommandRequest;
+import com.fanap.podchat.chat.bot.request_model.GetBotCommandsRequest;
+import com.fanap.podchat.chat.bot.request_model.GetThreadAllBotsRequest;
 import com.fanap.podchat.chat.bot.request_model.StartAndStopBotRequest;
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult;
 import com.fanap.podchat.mainmodel.AsyncMessage;
 import com.fanap.podchat.mainmodel.ChatMessage;
@@ -16,7 +21,10 @@ import com.fanap.podchat.util.ChatMessageType;
 import com.fanap.podchat.util.PodChatException;
 import com.fanap.podchat.util.Util;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BotManager {
@@ -38,6 +46,56 @@ public class BotManager {
         message.setType(ChatMessageType.Constants.CREATE_BOT);
         message.setTokenIssuer(CoreConfig.tokenIssuer);
         message.setUniqueId(uniqueId);
+        message.setTypeCode(request.getTypeCode() != null ? request.getTypeCode() : CoreConfig.typeCode);
+
+        return App.getGson().toJson(message);
+
+
+    }
+
+
+    public static String createBotCommandsListRequest(GetBotCommandsRequest request,
+                                                     String uniqueId) throws PodChatException {
+
+
+        validateBotName(request.getBotName());
+
+        JsonObject content = new JsonObject();
+
+        content.addProperty("botName", request.getBotName());
+
+        
+        AsyncMessage message = new AsyncMessage();
+        message.setContent(content.toString());
+        message.setToken(CoreConfig.token);
+        message.setType(ChatMessageType.Constants.Bot_COMMANDS);
+        message.setTokenIssuer(CoreConfig.tokenIssuer);
+        message.setUniqueId(uniqueId);
+        message.setTypeCode(request.getTypeCode() != null ? request.getTypeCode() : CoreConfig.typeCode);
+
+        return App.getGson().toJson(message);
+
+
+    }
+
+    public static String createThreadAllBotsRequest(GetThreadAllBotsRequest request,
+                                                          String uniqueId) throws PodChatException {
+
+        validateThreadId(request.getThreadId());
+
+        validateBotName(request.getBotName());
+
+        JsonObject content = new JsonObject();
+
+        content.addProperty("botName", request.getBotName());
+
+        AsyncMessage message = new AsyncMessage();
+        message.setContent(content.toString());
+        message.setToken(CoreConfig.token);
+        message.setType(ChatMessageType.Constants.Thread_ALL_BOTS);
+        message.setTokenIssuer(CoreConfig.tokenIssuer);
+        message.setUniqueId(uniqueId);
+        message.setSubjectId(request.getThreadId());
         message.setTypeCode(request.getTypeCode() != null ? request.getTypeCode() : CoreConfig.typeCode);
 
         return App.getGson().toJson(message);
@@ -174,6 +232,7 @@ public class BotManager {
 
         DefineBotCommandResult result = App.getGson().fromJson(chatMessage.getContent(), DefineBotCommandResult.class);
 
+
         response.setResult(result);
 
         response.setUniqueId(chatMessage.getUniqueId());
@@ -187,6 +246,39 @@ public class BotManager {
         ChatResponse<StartStopBotResult> response = new ChatResponse<>();
 
         StartStopBotResult result = new StartStopBotResult(chatMessage.getContent());
+
+        response.setResult(result);
+
+        response.setUniqueId(chatMessage.getUniqueId());
+
+        response.setSubjectId(chatMessage.getSubjectId());
+
+        return response;
+
+    }
+
+    public static ChatResponse<GetBotCommandsResult> handleOnBotCommands(ChatMessage chatMessage) {
+
+        ChatResponse<GetBotCommandsResult> response = new ChatResponse<>();
+
+        GetBotCommandsResult result = App.getGson().fromJson(chatMessage.getContent(), GetBotCommandsResult.class);
+
+        response.setResult(result);
+
+        response.setUniqueId(chatMessage.getUniqueId());
+
+        response.setSubjectId(chatMessage.getSubjectId());
+
+        return response;
+
+    }
+    public static ChatResponse<ThreadAllBotsResult> handleOnThreadBotList(ChatMessage chatMessage) {
+
+        ChatResponse<ThreadAllBotsResult> response = new ChatResponse<>();
+
+        Type userListType = new TypeToken<ArrayList<BotVo>>(){}.getType();
+        List<BotVo> bots = App.getGson().fromJson(chatMessage.getContent(), userListType);
+        ThreadAllBotsResult result = new ThreadAllBotsResult(bots);
 
         response.setResult(result);
 

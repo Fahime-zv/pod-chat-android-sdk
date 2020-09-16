@@ -2,6 +2,8 @@ package com.fanap.podchat.chat;
 
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult;
 import com.fanap.podchat.chat.contact.result_model.ContactSyncedResult;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
@@ -276,6 +278,9 @@ public interface ChatListener {
     default void onBotCommandsDefined(ChatResponse<DefineBotCommandResult> response){}
 
     default void onBotStopped(ChatResponse<StartStopBotResult> response){}
+
+    default void onBotCommands(ChatResponse<GetBotCommandsResult> response){}
+    default void onThreadBotList(ChatResponse<ThreadAllBotsResult> response){}
 
     default void onBotStarted(ChatResponse<StartStopBotResult> response){}
 
