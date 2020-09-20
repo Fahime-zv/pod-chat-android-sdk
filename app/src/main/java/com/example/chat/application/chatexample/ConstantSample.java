@@ -4,6 +4,7 @@ package com.example.chat.application.chatexample;
 public class ConstantSample {
 
 
+    
     public static final String[] func = {
             "Choose function",
             "get thread",
@@ -56,7 +57,9 @@ public class ConstantSample {
             "Create Bot",
             "Define Bot Command",
             "Start Bot",
-            "Start Bot"
+            "Start Bot",
+            "Get Bot Commands",
+            "Get Theread All Bots"
     };
 
     public static final String[] funcThird = {
