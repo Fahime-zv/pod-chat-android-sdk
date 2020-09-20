@@ -36,9 +36,13 @@ import com.fanap.podchat.chat.ChatHandler;
 import com.fanap.podchat.chat.RoleType;
 import com.fanap.podchat.chat.bot.request_model.CreateBotRequest;
 import com.fanap.podchat.chat.bot.request_model.DefineBotCommandRequest;
+import com.fanap.podchat.chat.bot.request_model.GetBotCommandsRequest;
+import com.fanap.podchat.chat.bot.request_model.GetThreadAllBotsRequest;
 import com.fanap.podchat.chat.bot.request_model.StartAndStopBotRequest;
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.file_manager.download_file.model.ResultDownloadFile;
 import com.fanap.podchat.chat.mention.model.GetMentionedRequest;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
@@ -153,20 +157,21 @@ public class ChatActivity extends AppCompatActivity
 
 
     //main and sandbox
-
-    private static String TOKEN = "869221a3923f49879ecd38824f7d787e";
-    private static String ssoHost = BaseApplication.getInstance().getString(R.string.ssoHost);
-    private static String serverName = "chat-server";
+//
+//    private static String TOKEN = "869221a3923f49879ecd38824f7d787e";
+//    private static String ssoHost = BaseApplication.getInstance().getString(R.string.ssoHost);
+//    private static String serverName = "chat-server";
 
 
     //local
 
 
-//    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_fifi);
-//    private static String ssoHost = BaseApplication.getInstance().getString(R.string.integration_ssoHost);
-//    private static String serverName = BaseApplication.getInstance().getString(R.string.integration_serverName);
+    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_fifi);
+    private static String ssoHost = BaseApplication.getInstance().getString(R.string.integration_ssoHost);
+    private static String serverName = BaseApplication.getInstance().getString(R.string.integration_serverName);
 
 
+    
     //test
 
 //    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_zabbix_bot_2);
@@ -181,11 +186,11 @@ public class ChatActivity extends AppCompatActivity
     /**
      * Integration server setting:
      */
-//
-//    private static String name = BaseApplication.getInstance().getString(R.string.integration_serverName);
-//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.integration_socketAddress);
-//    private static String platformHost = BaseApplication.getInstance().getString(R.string.integration_platformHost);
-//    private static String fileServer = BaseApplication.getInstance().getString(R.string.integration_platformHost);
+
+    private static String name = BaseApplication.getInstance().getString(R.string.integration_serverName);
+    private static String socketAddress = BaseApplication.getInstance().getString(R.string.integration_socketAddress);
+    private static String platformHost = BaseApplication.getInstance().getString(R.string.integration_platformHost);
+    private static String fileServer = BaseApplication.getInstance().getString(R.string.integration_platformHost);
 
     /**
      * Nemati
@@ -219,10 +224,10 @@ public class ChatActivity extends AppCompatActivity
      * Sandbox setting:
      */
 
-    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
-    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
-    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
-    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
+//    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
+//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
+//    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
+//    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
 
 
     //sand box / group
@@ -1680,6 +1685,14 @@ public class ChatActivity extends AppCompatActivity
                         stopBot();
                         break;
                     }
+                    case 23: {
+                        getBotCommnds();
+                        break;
+
+                    }
+                    case 24: {
+                        getThreadAllBots();
+                        break;}
                 }
             }
 
@@ -1704,12 +1717,13 @@ public class ChatActivity extends AppCompatActivity
     private void startBot() {
 
         StartAndStopBotRequest request = new StartAndStopBotRequest.Builder(TEST_THREAD_ID,
-                "TEST2BOT")
+                localBotName)
                 .build();
 
         presenter.startBot(request);
 
     }
+    String localBotName  ="TEST8BOT";
 
     private void defineBotCommand() {
 
@@ -1717,7 +1731,7 @@ public class ChatActivity extends AppCompatActivity
         commands.add("/command1");
         commands.add("/command2");
 
-        DefineBotCommandRequest request = new DefineBotCommandRequest.Builder("TEST2BOT", commands)
+        DefineBotCommandRequest request = new DefineBotCommandRequest.Builder(localBotName, commands)
                 .build();
 
         presenter.defineBotCommand(request);
@@ -1726,10 +1740,28 @@ public class ChatActivity extends AppCompatActivity
 
     private void createBot() {
 
-        CreateBotRequest request = new CreateBotRequest.Builder("TEST2BOT")
+        CreateBotRequest request = new CreateBotRequest.Builder(localBotName)
                 .build();
 
         presenter.createBot(request);
+
+    }
+
+    private void getBotCommnds() {
+
+        GetBotCommandsRequest request = new GetBotCommandsRequest.Builder(localBotName)
+                .build();
+
+        presenter.getBotCommands(request);
+
+    }
+
+    private void getThreadAllBots() {
+
+        GetThreadAllBotsRequest request = new GetThreadAllBotsRequest.Builder(8009,localBotName)
+                .build();
+
+        presenter.geThreadAllBots(request);
 
     }
 
@@ -3028,5 +3060,16 @@ public class ChatActivity extends AppCompatActivity
     @Override
     public void onBotStarted(String botName) {
         Toast.makeText(this, "BOT STARTED:  " + botName, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBotCommands(ChatResponse<GetBotCommandsResult> response) {
+        Toast.makeText(this, "BOT COMMANDS:  " + response.getResult().getBotName() + response.getResult().getCommandList().size(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onThreadBotList(ChatResponse<ThreadAllBotsResult> response) {
+        Toast.makeText(this, "BOT COMMANDS:  " + response, Toast.LENGTH_SHORT).show();
+
     }
 }
