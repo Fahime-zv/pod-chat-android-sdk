@@ -171,7 +171,8 @@ public class ChatActivity extends AppCompatActivity
     private static String serverName = BaseApplication.getInstance().getString(R.string.integration_serverName);
 
 
-    
+
+
     //test
 
 //    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_zabbix_bot_2);
@@ -182,6 +183,7 @@ public class ChatActivity extends AppCompatActivity
     private static String appId = "POD-Chat";
     private static String podSpaceServer = BaseApplication.getInstance().getString(R.string.podspace_file_server_main);
 
+    
 
     /**
      * Integration server setting:
