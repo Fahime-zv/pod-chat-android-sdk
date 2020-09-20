@@ -935,6 +935,7 @@ public class Chat extends AsyncAdapter {
                 break;
             }
 
+            
 
             case Constants.REGISTER_FCM_USER_DEVICE: {
                 PodNotificationManager.handleOnUserAndDeviceRegistered(chatMessage, context);
