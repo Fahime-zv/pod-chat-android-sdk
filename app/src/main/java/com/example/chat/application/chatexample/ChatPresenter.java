@@ -18,10 +18,14 @@ import com.fanap.podchat.chat.ChatAdapter;
 import com.fanap.podchat.chat.ChatHandler;
 import com.fanap.podchat.chat.bot.request_model.CreateBotRequest;
 import com.fanap.podchat.chat.bot.request_model.DefineBotCommandRequest;
+import com.fanap.podchat.chat.bot.request_model.GetBotCommandsRequest;
+import com.fanap.podchat.chat.bot.request_model.GetThreadAllBotsRequest;
 import com.fanap.podchat.chat.bot.request_model.StartAndStopBotRequest;
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.mention.model.GetMentionedRequest;
 import com.fanap.podchat.chat.messge.GetAllUnreadMessageCountRequest;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
@@ -373,6 +377,16 @@ public class ChatPresenter extends ChatAdapter implements ChatContract.presenter
     }
 
     @Override
+    public void getBotCommands(GetBotCommandsRequest request) {
+        String uniqueId = chat.getBotCommandsList(request);
+    }
+
+    @Override
+    public void geThreadAllBots(GetThreadAllBotsRequest request) {
+        String uniqueId = chat.getThreadAllBots(request);
+    }
+
+    @Override
     public void onBotCreated(ChatResponse<CreateBotResult> response) {
         view.onBotCreated(response);
     }
@@ -392,6 +406,16 @@ public class ChatPresenter extends ChatAdapter implements ChatContract.presenter
     public void onBotStarted(ChatResponse<StartStopBotResult> response) {
         view.onBotStarted(response.getResult().getBotName());
 
+    }
+
+    @Override
+    public void onBotCommands(ChatResponse<GetBotCommandsResult> response) {
+        view.onBotCommands(response);
+    }
+
+    @Override
+    public void onThreadBotList(ChatResponse<ThreadAllBotsResult> response) {
+        view.onThreadBotList(response);
     }
 
     @Override

@@ -9,9 +9,13 @@ import com.fanap.podchat.chat.Chat;
 import com.fanap.podchat.chat.ChatHandler;
 import com.fanap.podchat.chat.bot.request_model.CreateBotRequest;
 import com.fanap.podchat.chat.bot.request_model.DefineBotCommandRequest;
+import com.fanap.podchat.chat.bot.request_model.GetBotCommandsRequest;
+import com.fanap.podchat.chat.bot.request_model.GetThreadAllBotsRequest;
 import com.fanap.podchat.chat.bot.request_model.StartAndStopBotRequest;
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.mention.model.GetMentionedRequest;
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount;
 import com.fanap.podchat.chat.thread.public_thread.IsPublicThreadNameAvailableRequest;
@@ -211,11 +215,16 @@ public interface ChatContract {
         default void onBotCreated(ChatResponse<CreateBotResult> response){}
 
         default void onBotCommandsDefined(ChatResponse<DefineBotCommandResult> response){}
-
         default void onBotStopped(String botName){}
 
         default void onBotStarted(String botName){}
-    }
+
+        default void onBotCommands(ChatResponse<GetBotCommandsResult> response){}
+        default void onThreadBotList(ChatResponse<ThreadAllBotsResult> response) {}
+
+
+
+}
 
     interface presenter {
 
@@ -471,6 +480,10 @@ public interface ChatContract {
         void startBot(StartAndStopBotRequest request);
 
         void stopBot(StartAndStopBotRequest request);
+
+        void getBotCommands(GetBotCommandsRequest request);
+
+        void geThreadAllBots(GetThreadAllBotsRequest request);
 
     }
 }

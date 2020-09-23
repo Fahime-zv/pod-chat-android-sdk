@@ -157,20 +157,20 @@ public class ChatActivity extends AppCompatActivity
 
 
     //main and sandbox
-//
-//    private static String TOKEN = "869221a3923f49879ecd38824f7d787e";
-//    private static String ssoHost = BaseApplication.getInstance().getString(R.string.ssoHost);
-//    private static String serverName = "chat-server";
+
+    private static String TOKEN = "869221a3923f49879ecd38824f7d787e";
+    private static String ssoHost = BaseApplication.getInstance().getString(R.string.ssoHost);
+    private static String serverName = "chat-server";
 
 
     //local
 
 
-    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_fifi);
-    private static String ssoHost = BaseApplication.getInstance().getString(R.string.integration_ssoHost);
-    private static String serverName = BaseApplication.getInstance().getString(R.string.integration_serverName);
-
-
+//    private static String TOKEN = BaseApplication.getInstance().getString(R.string.token_fifi);
+//    private static String ssoHost = BaseApplication.getInstance().getString(R.string.integration_ssoHost);
+//    private static String serverName = BaseApplication.getInstance().getString(R.string.integration_serverName);
+//
+//
 
 
     //test
@@ -183,16 +183,16 @@ public class ChatActivity extends AppCompatActivity
     private static String appId = "POD-Chat";
     private static String podSpaceServer = BaseApplication.getInstance().getString(R.string.podspace_file_server_main);
 
-    
+
 
     /**
      * Integration server setting:
      */
 
-    private static String name = BaseApplication.getInstance().getString(R.string.integration_serverName);
-    private static String socketAddress = BaseApplication.getInstance().getString(R.string.integration_socketAddress);
-    private static String platformHost = BaseApplication.getInstance().getString(R.string.integration_platformHost);
-    private static String fileServer = BaseApplication.getInstance().getString(R.string.integration_platformHost);
+//    private static String name = BaseApplication.getInstance().getString(R.string.integration_serverName);
+//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.integration_socketAddress);
+//    private static String platformHost = BaseApplication.getInstance().getString(R.string.integration_platformHost);
+//    private static String fileServer = BaseApplication.getInstance().getString(R.string.integration_platformHost);
 
     /**
      * Nemati
@@ -226,10 +226,10 @@ public class ChatActivity extends AppCompatActivity
      * Sandbox setting:
      */
 
-//    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
-//    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
-//    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
-//    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
+    private static String name = BaseApplication.getInstance().getString(R.string.sandbox_server_name);
+    private static String socketAddress = BaseApplication.getInstance().getString(R.string.sandbox_socketAddress);
+    private static String platformHost = BaseApplication.getInstance().getString(R.string.sandbox_platformHost);
+    private static String fileServer = BaseApplication.getInstance().getString(R.string.sandbox_fileServer);
 
 
     //sand box / group
@@ -1760,7 +1760,7 @@ public class ChatActivity extends AppCompatActivity
 
     private void getThreadAllBots() {
 
-        GetThreadAllBotsRequest request = new GetThreadAllBotsRequest.Builder(8009,localBotName)
+        GetThreadAllBotsRequest request = new GetThreadAllBotsRequest.Builder(8009)
                 .build();
 
         presenter.geThreadAllBots(request);
@@ -1779,6 +1779,7 @@ public class ChatActivity extends AppCompatActivity
         presenter.updateChatProfile(request);
 
 
+        
     }
 
     private void seenMessage() {
@@ -1909,8 +1910,7 @@ public class ChatActivity extends AppCompatActivity
         //add with coreUserIds
 
         AddParticipantsRequest request = AddParticipantsRequest
-                .newBuilder()
-                .threadId((long) TEST_THREAD_ID)
+                .newBuilder() .threadId((long) TEST_THREAD_ID)
 //                .withCoreUserIds(982L, 5241L)
 //                .withUserNames("a.rokni",
 //                        "ms.alavizadeh",
@@ -2318,7 +2318,7 @@ public class ChatActivity extends AppCompatActivity
     }
 
 
-    public static final String THREAD_UNIQUE_NAME = "unique_name_44_1584016531111";
+    public static final String THREAD_UNIQUE_NAME = "unique_name_4_1584016531111";
 //    public static final String THREAD_UNIQUE_NAME = "unique_name_4_" + new Date().getTime();
 
     private void joinPublicThread() {
