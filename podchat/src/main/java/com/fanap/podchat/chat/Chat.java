@@ -41,10 +41,14 @@ import com.fanap.podchat.cachemodel.queue.WaitQueueCache;
 import com.fanap.podchat.chat.bot.BotManager;
 import com.fanap.podchat.chat.bot.request_model.CreateBotRequest;
 import com.fanap.podchat.chat.bot.request_model.DefineBotCommandRequest;
+import com.fanap.podchat.chat.bot.request_model.GetBotCommandsRequest;
+import com.fanap.podchat.chat.bot.request_model.GetThreadAllBotsRequest;
 import com.fanap.podchat.chat.bot.request_model.StartAndStopBotRequest;
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult;
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult;
+import com.fanap.podchat.chat.bot.result_model.GetBotCommandsResult;
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult;
+import com.fanap.podchat.chat.bot.result_model.ThreadAllBotsResult;
 import com.fanap.podchat.chat.contact.ContactManager;
 import com.fanap.podchat.chat.contact.result_model.ContactSyncedResult;
 import com.fanap.podchat.chat.file_manager.download_file.PodDownloader;
@@ -915,6 +919,15 @@ public class Chat extends AsyncAdapter {
                 break;
             }
 
+            case Constants.Bot_COMMANDS: {
+                handleOnBotCommands(chatMessage);
+                break;
+            }
+            case Constants.Thread_ALL_BOTS: {
+                handleOnThreadBotList(chatMessage);
+                break;
+            }
+
 
             case Constants.REGISTER_FCM_USER_DEVICE: {
                 PodNotificationManager.handleOnUserAndDeviceRegistered(chatMessage, context);
@@ -1106,6 +1119,31 @@ public class Chat extends AsyncAdapter {
                 handleSystemMessage(callback, chatMessage, messageUniqueId);
                 break;
         }
+    }
+
+
+    private void handleOnBotCommands(ChatMessage chatMessage) {
+
+        ChatResponse<GetBotCommandsResult> response = BotManager
+                .handleOnBotCommands(chatMessage);
+
+        listenerManager.callOnBotCommands(response);
+
+
+        showLog("ON_BOT_COMMANDS", gson.toJson(chatMessage));
+
+    }
+
+    private void handleOnThreadBotList(ChatMessage chatMessage) {
+
+        ChatResponse<ThreadAllBotsResult> response = BotManager
+                .handleOnThreadBotList(chatMessage);
+
+        listenerManager.callOnThreadAllBots(response);
+
+
+        showLog("ON_THREAD_BOT_LIST", gson.toJson(chatMessage));
+
     }
 
     private void handleOnContactsSynced(ChatMessage chatMessage) {
@@ -1800,6 +1838,55 @@ public class Chat extends AsyncAdapter {
 
 
     }
+
+    public String getBotCommandsList(GetBotCommandsRequest request) {
+        String uniqueId = generateUniqueId();
+        if (chatReady) {
+
+            String message = null;
+            try {
+                message = BotManager.createBotCommandsListRequest(request, uniqueId);
+            } catch (PodChatException e) {
+                new PodThreadManager().doThisAndGo(() -> {
+                    e.setUniqueId(uniqueId);
+                    e.setToken(getToken());
+                    captureError(e);
+                });
+                return uniqueId;
+            }
+
+            sendAsyncMessage(message, AsyncAckType.Constants.WITHOUT_ACK, "GET_BOT_COMMANDS_REQUEST");
+
+        } else {
+            onChatNotReady(uniqueId);
+        }
+        return uniqueId;
+    }
+
+    public String getThreadAllBots(GetThreadAllBotsRequest request) {
+        String uniqueId = generateUniqueId();
+        if (chatReady) {
+
+            String message = null;
+            try {
+                message = BotManager.createThreadAllBotsRequest(request, uniqueId);
+            } catch (PodChatException e) {
+                new PodThreadManager().doThisAndGo(() -> {
+                    e.setUniqueId(uniqueId);
+                    e.setToken(getToken());
+                    captureError(e);
+                });
+                return uniqueId;
+            }
+
+            sendAsyncMessage(message, AsyncAckType.Constants.WITHOUT_ACK, "GET_THREAD_BOT_LIST_REQUEST");
+
+        } else {
+            onChatNotReady(uniqueId);
+        }
+        return uniqueId;
+    }
+
 
     public String startBot(StartAndStopBotRequest request) {
 
@@ -5359,6 +5446,7 @@ public class Chat extends AsyncAdapter {
      * @param messageId      of the message that we want to reply
      * @param systemMetaData meta data of the message
      */
+    @Deprecated
     public String replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
         return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, null, handler);
     }
@@ -9625,6 +9713,7 @@ public class Chat extends AsyncAdapter {
     /**
      * It Mutes the thread so notification is set to off for that thread
      */
+    @Deprecated
     public String muteThread(long threadId, ChatHandler handler) {
         String uniqueId;
         uniqueId = generateUniqueId();
@@ -9781,6 +9870,7 @@ public class Chat extends AsyncAdapter {
      * Message can be edit when you pass the message id and the edited
      * content in order to edit your Message.
      */
+    @Deprecated
     public String editMessage(int messageId, String messageContent, String systemMetaData, ChatHandler handler) {
 
         String uniqueId = generateUniqueId();

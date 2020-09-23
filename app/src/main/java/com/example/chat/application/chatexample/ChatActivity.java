@@ -1779,7 +1779,7 @@ public class ChatActivity extends AppCompatActivity
         presenter.updateChatProfile(request);
 
 
-        
+
     }
 
     private void seenMessage() {

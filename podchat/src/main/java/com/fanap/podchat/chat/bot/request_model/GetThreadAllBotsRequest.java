@@ -5,21 +5,21 @@ import com.fanap.podchat.requestobject.GeneralRequestObject;
 public class GetThreadAllBotsRequest extends GeneralRequestObject {
 
     private long threadId;
-    private String botName;
+
 
     GetThreadAllBotsRequest(GetThreadAllBotsRequest.Builder builder) {
         super(builder);
         this.threadId = builder.threadId;
-        this.botName = builder.botName;
+
     }
 
     public static class Builder extends GeneralRequestObject.Builder<GetThreadAllBotsRequest.Builder> {
         private long threadId;
-        private String botName;
 
-        public Builder(long threadId, String botName) {
+
+        public Builder(long threadId) {
             this.threadId = threadId;
-            this.botName = botName;
+
         }
 
 
@@ -33,13 +33,7 @@ public class GetThreadAllBotsRequest extends GeneralRequestObject {
         }
     }
 
-    public String getBotName() {
-        return botName;
-    }
 
-    public void setBotName(String botName) {
-        this.botName = botName;
-    }
 
     public long getThreadId() {
         return threadId;

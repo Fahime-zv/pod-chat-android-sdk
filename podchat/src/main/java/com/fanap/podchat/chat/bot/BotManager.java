@@ -83,14 +83,7 @@ public class BotManager {
 
         validateThreadId(request.getThreadId());
 
-        validateBotName(request.getBotName());
-
-        JsonObject content = new JsonObject();
-
-        content.addProperty("botName", request.getBotName());
-
         AsyncMessage message = new AsyncMessage();
-        message.setContent(content.toString());
         message.setToken(CoreConfig.token);
         message.setType(ChatMessageType.Constants.Thread_ALL_BOTS);
         message.setTokenIssuer(CoreConfig.tokenIssuer);
